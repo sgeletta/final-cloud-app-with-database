@@ -95,25 +95,19 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 
-# <HINT> Create a Question Model with:
-    # Used to persist question content for a course
-    # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
-    # Has a grade point for each question
-    # Has question content
-    # Other fields and methods you would like to design
 class Question(models.Model):
-         course = models.ForeignKey(Course, on_delete=models.CASCADE)
-         question = models.CharField(max_length=25)
-         questiontext = models.CharField(max_length=1000)
-         questiongrade = models.FloatField(default=0.0)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    question = models.CharField(max_length=25)
+    questiontext = models.CharField(max_length=1000)
+    questiongrade = models.FloatField(default=0.0)
 
-         def is_get_score(self, selected_ids):
-             all_answers = self.choice_set.filter(is_correct=True).count()
-             selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
-             if all_answers == selected_correct:
-                 return True
-             else:
-                 return False
+    def is_get_score(self, selected_ids):
+        all_answers = self.choice_set.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+        if all_answers == selected_correct:
+            return True
+        else:
+            return False
          
 #  <HINT> Create a Choice Model with:
     # Used to persist choice content for a question
